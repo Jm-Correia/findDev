@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 //componente: Bloco isolado de html, css, js onde não interfere no restante da aplicação.
 //propriedade: |props| {props.title}. Informação que um componente PAI passa pros filhos.
-//estado: 
+//estado: informações mantidas pelo componente.
 //fragmento: <> </> em volta dos componentes
 
 function App() {
