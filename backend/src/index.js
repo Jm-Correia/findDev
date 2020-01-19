@@ -1,14 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const routes = require('./routes');
+const mongoose = require('./config');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://jmc:P1b3x@cluster0-odhku.gcp.mongodb.net/week10?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-
+mongoose.configMongo(); // Necessario criar um js com a funcao que retorna a string de conexacao do mongoose.
 app.use(express.json());
 app.use(routes);
 
