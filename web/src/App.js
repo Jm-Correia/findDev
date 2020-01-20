@@ -1,4 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import api from './services/api';
+import List from './componentes/Item/List';
+import Formdev from './componentes/form/Formdev';
+
+import './global.css';
+import './App.css';
+import './Siderbar.css';
+import './Main.css';
 
 //componente: Bloco isolado de html, css, js onde não interfere no restante da aplicação.
 //propriedade: |props| {props.title}. Informação que um componente PAI passa pros filhos.
@@ -7,18 +15,39 @@ import React, {useState} from 'react';
 
 function App() {
 
-  const [count, setCounter] = useState(0);
-    
-  function incrementar(){
-    setCounter(count+1);
+  const [devs, setDevs] = useState([]);
+
+  useEffect(()=>{
+    async function loadDevs(){
+      const response = await api.get('/devs');
+      setDevs(response.data);
+    }
+
+    loadDevs();
+
+  },[]);
+  
+  async function handlerDev(data){
+    const response = await api.post('/devs', data);
+     setDevs([...devs, response.data]);
   }
 
-
   return (
-    <div className="App">
-        <h1>Contador: {count}</h1>
-        <button onClick={incrementar}>Incrementar</button>    
-    </div>
+    <div id="app">
+      <aside>
+        <strong>Cadastrar</strong>
+        <Formdev onSubmit={handlerDev} />
+      </aside>
+      <main>
+        <ul>
+          {devs.map(d => (
+            <List key={d._id} dev={d}/>
+          ))}
+        </ul>
+
+      </main>
+    </div> 
+
   );
 }
 
